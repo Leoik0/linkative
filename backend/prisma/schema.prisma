@@ -1,0 +1,56 @@
+// Prisma schema para usuário admin
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Admin {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  nome       String
+  slug       String?  @unique
+  bio        String?
+  imageUrl   String?
+  bgType     String   @default("color")
+  bgValue    String   @default("#f5f5f5")
+  nomeColor  String   @default("#1e293b")
+  bioColor   String   @default("#64748b")
+  linkColor  String   @default("#2563eb")
+  plan       String   @default("free")
+  planUntil  DateTime?
+  lastPaymentId String?
+  hasAnalytics Boolean @default(false)
+  isOwner    Boolean  @default(false)
+  links      Link[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Link {
+  id      Int     @id @default(autoincrement())
+  title   String
+  url     String
+  icon    String?
+  color   String? @default("#2563eb")
+  adminId Int
+  admin   Admin   @relation(fields: [adminId], references: [id])
+  clicks  Click[]
+}
+
+model Click {
+  id        Int      @id @default(autoincrement())
+  linkId    Int
+  link      Link     @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  timestamp DateTime @default(now())
+  city      String?
+  country   String?
+  ip        String?
+  userAgent String?
+  referrer  String?
+  @@index([linkId, timestamp])
+}
