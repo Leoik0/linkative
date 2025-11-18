@@ -20,17 +20,17 @@ app.use("/api", analyticsRoutes);
 
 // Health check
 app.get("/api/health", (req, res) => {
-  res.status(HTTP_STATUS.OK).json({ 
-    status: "ok", 
-    timestamp: new Date().toISOString() 
+  res.status(HTTP_STATUS.OK).json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
   });
 });
 
 // Rota raiz da API
 app.get("/api", (req, res) => {
-  res.status(HTTP_STATUS.OK).json({ 
+  res.status(HTTP_STATUS.OK).json({
     message: "Linkative API",
-    version: "1.0.0"
+    version: "1.0.0",
   });
 });
 
