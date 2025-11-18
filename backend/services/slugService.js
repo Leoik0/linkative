@@ -1,12 +1,10 @@
 // Serviço para geração de slugs únicos
-const { PrismaClient } = require("@prisma/client");
+const prisma = require("../prisma/client");
 const {
   SLUG_LENGTH,
   SLUG_PREFIX,
   SLUG_GENERATION_ATTEMPTS,
 } = require("../config/constants");
-
-const prisma = new PrismaClient();
 
 class SlugService {
   /**

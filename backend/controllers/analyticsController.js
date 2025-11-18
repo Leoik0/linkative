@@ -1,11 +1,9 @@
 // Controller para Analytics - Refatorado com Clean Code e SOLID
-const { PrismaClient } = require("@prisma/client");
+const prisma = require("../prisma/client");
 const ReferrerService = require("../services/referrerService");
 const GeolocationService = require("../services/geolocationService");
 const RequestUtils = require("../utils/requestUtils");
 const { HTTP_STATUS, ERRORS } = require("../config/constants");
-
-const prisma = new PrismaClient();
 
 class AnalyticsController {
   /**

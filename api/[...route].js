@@ -15,7 +15,9 @@ app.use("/admin", adminRoutes);
 app.use("/analytics", analyticsRoutes);
 
 app.get("/health", (req, res) => {
-  res.status(HTTP_STATUS.OK).json({ status: "ok", timestamp: new Date().toISOString() });
+  res
+    .status(HTTP_STATUS.OK)
+    .json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
 // Handler exportado para Vercel

@@ -1,5 +1,5 @@
 // Controller para Admin - Refatorado com Clean Code e SOLID
-const { PrismaClient } = require("@prisma/client");
+const prisma = require("../prisma/client");
 const SlugService = require("../services/slugService");
 const RequestUtils = require("../utils/requestUtils");
 const {
@@ -7,8 +7,6 @@ const {
   ERRORS,
   DEFAULT_LINK_COLOR,
 } = require("../config/constants");
-
-const prisma = new PrismaClient();
 
 class AdminController {
   /**

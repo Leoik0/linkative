@@ -1,7 +1,8 @@
 import { Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import Home from "./pages/Home";
-import Profile from "./pages/Profile";
-import Dashboard from "./pages/Dashboard";
+const Profile = lazy(() => import("./pages/Profile"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -21,12 +22,21 @@ function App() {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <Suspense fallback={<div />}>
+                <Dashboard />
+              </Suspense>
             </ProtectedRoute>
           }
         />
         <Route path="/login" element={<Login />} />
-        <Route path="/perfil/:slug" element={<Profile />} />
+        <Route
+          path="/perfil/:slug"
+          element={
+            <Suspense fallback={<div />}>
+              <Profile />
+            </Suspense>
+          }
+        />
       </Routes>
     </div>
   );

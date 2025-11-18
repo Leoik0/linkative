@@ -1,11 +1,12 @@
-// Rotas para Admin
+// Rotas para Admin (sem prefixo duplicado)
 const express = require("express");
 const router = express.Router();
 const adminController = require("./controllers/adminController");
 
-router.get("/admin", adminController.getAdmin);
-router.get("/admin/check-slug/:slug", adminController.checkSlug);
-router.post("/admin", adminController.createAdmin);
-router.put("/admin", adminController.updateAdmin);
+// Estas rotas serão montadas em "/admin" no handler serverless (/api)
+router.get("/", adminController.getAdmin);
+router.get("/check-slug/:slug", adminController.checkSlug);
+router.post("/", adminController.createAdmin);
+router.put("/", adminController.updateAdmin);
 
 module.exports = router;

@@ -24,9 +24,9 @@ if (!fs.existsSync(uploadsDir)) {
 app.use(cors());
 app.use(express.json());
 
-// Rotas da API
-app.use("/api", adminRoutes);
-app.use("/api", analyticsRoutes);
+// Rotas da API (montadas com prefixo explícito)
+app.use("/api/admin", adminRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 // Rota para upload de imagem de perfil
 app.post("/api/admin/upload", upload.single("image"), (req, res) => {
