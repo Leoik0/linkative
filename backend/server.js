@@ -43,11 +43,18 @@ app.post("/api/admin/upload", upload.single("image"), (req, res) => {
 // Servir arquivos estáticos da pasta uploads
 app.use("/api/admin/uploads", express.static(uploadsDir));
 
-// Inicia servidor
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor rodando na porta ${PORT}`);
-  console.log(`📁 Uploads salvos em: ${uploadsDir}`);
+// Health check para Vercel
+app.get("/api/health", (req, res) => {
+  res.status(HTTP_STATUS.OK).json({ status: "ok", timestamp: new Date().toISOString() });
 });
+
+// Inicia servidor (apenas local, Vercel usa serverless)
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 4000;
+  app.listen(PORT, () => {
+    console.log(`🚀 Servidor rodando na porta ${PORT}`);
+    console.log(`📁 Uploads salvos em: ${uploadsDir}`);
+  });
+}
 
 module.exports = app;
