@@ -1,41 +1,121 @@
-# Backend API
+# Backend - Linktree SaaS
 
-Scripts principais:
+API RESTful para gerenciamento de perfis e analytics, construída com Express, Prisma e PostgreSQL.
 
-- `npm run dev`: inicia o servidor com nodemon (porta 4000 por padrão)
-- `npm start`: inicia o servidor em modo produção
-- `npm run prisma:generate`: gera o Prisma Client
-- `npm run prisma:migrate`: aplica migrações (dev)
-- `npm run prisma:seed`: executa o seed do Prisma
-- `npm run seed`: executa diretamente o arquivo `prisma/seed.js`
+## 📁 Estrutura do Projeto
 
-## Seed de Analytics
-
-Para popular cliques de teste nos seus links:
-
-1. Defina o e-mail do admin (mesmo usado no frontend/Clerk):
-
-```bash
-SEED_ADMIN_EMAIL="seu@email" npm run prisma:seed
+```
+backend/
+├── config/
+│   ├── constants.js      # Constantes da aplicação
+│   └── multer.js          # Configuração de upload
+├── controllers/
+│   ├── adminController.js     # Lógica de perfis
+│   └── analyticsController.js # Lógica de analytics
+├── services/
+│   ├── slugService.js          # Geração de slugs únicos
+│   ├── referrerService.js      # Categorização de referrers
+│   └── geolocationService.js   # API de geolocalização
+├── utils/
+│   └── requestUtils.js         # Utilitários HTTP
+├── prisma/
+│   ├── schema.prisma      # Schema do banco
+│   ├── seed.js            # Dados de seed
+│   └── migrations/        # Migrations
+├── uploads/               # Arquivos enviados
+├── adminRoutes.js         # Rotas de admin
+├── analyticsRoutes.js     # Rotas de analytics
+├── server.js              # Entrada da aplicação
+├── .env                   # Variáveis de ambiente
+└── package.json
 ```
 
-2. Se o admin ainda não existir, informe um slug para criá-lo automaticamente:
+## 🎯 Princípios Aplicados
+
+### SOLID
+
+- **Single Responsibility**: Cada classe/módulo tem uma única responsabilidade
+
+  - `SlugService`: apenas geração e validação de slugs
+  - `ReferrerService`: apenas categorização de origens
+  - `GeolocationService`: apenas busca de localização
+
+- **Open/Closed**: Extensível sem modificação
+
+  - Novos referrers podem ser adicionados em `constants.js`
+  - Novos endpoints não requerem mudança nos existentes
+
+- **Dependency Inversion**: Controllers dependem de abstrações (services)
+  - Controllers não implementam lógica de negócio diretamente
+  - Fácil mockar services para testes
+
+### Clean Code
+
+- **Nomenclatura clara**: métodos e variáveis autoexplicativos
+- **Funções pequenas**: cada função faz uma coisa
+- **DRY**: código duplicado extraído para utilitários
+- **Constantes centralizadas**: sem magic numbers/strings
+- **Comentários JSDoc**: documentação inline
+
+## 🚀 Comandos
 
 ```bash
-SEED_ADMIN_EMAIL="seu@email" \
-SEED_ADMIN_SLUG="seu-slug" \
+# Desenvolvimento
+npm run dev
+
+# Produção
+npm start
+
+# Prisma
+npm run prisma:generate
+npm run prisma:migrate
 npm run prisma:seed
+npm run seed
 ```
 
-O seed vai criar ~300 cliques distribuídos nos últimos dias, com cidades e origens (Instagram, WhatsApp, Google, etc.).
+## 📡 Endpoints
 
-## Observação sobre OneDrive e Prisma (Windows)
+### Admin
 
-Se aparecer erro `EPERM: operation not permitted, rename ... query_engine-windows.dll.node`, é comum em pastas sincronizadas do OneDrive.
-Algumas alternativas:
+- `GET /api/admin?email=user@example.com` - Busca admin
+- `POST /api/admin` - Cria admin
+- `PUT /api/admin` - Atualiza admin
+- `GET /api/admin/check-slug/:slug` - Verifica slug
+- `POST /api/admin/upload` - Upload de imagem
 
-- Mover o projeto para uma pasta fora do OneDrive
-- Pausar a sincronização do OneDrive enquanto roda `prisma generate`
-- Rodar os comandos novamente (às vezes é intermitente)
+### Analytics
 
-O backend e o seed podem funcionar mesmo se o `prisma generate` falhar pontualmente, caso o Client já esteja gerado anteriormente.
+- `POST /api/analytics/click` - Registra clique
+- `GET /api/analytics/stats/:adminId` - Busca estatísticas
+
+## 🔧 Configuração
+
+Crie `.env` na raiz:
+
+```env
+DATABASE_URL="postgresql://..."
+PORT=4000
+```
+
+## 📦 Dependências
+
+- **express**: Framework web
+- **@prisma/client**: ORM
+- **cors**: CORS middleware
+- **dotenv**: Variáveis de ambiente
+- **multer**: Upload de arquivos
+
+## 🧪 Testando
+
+```bash
+# Verificar slug
+curl http://localhost:4000/api/admin/check-slug/meu-slug
+
+# Buscar admin
+curl http://localhost:4000/api/admin?email=teste@example.com
+
+# Criar admin
+curl -X POST http://localhost:4000/api/admin \
+  -H "Content-Type: application/json" \
+  -d '{"email":"novo@example.com","nome":"Novo User"}'
+```

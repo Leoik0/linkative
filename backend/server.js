@@ -45,7 +45,9 @@ app.use("/api/admin/uploads", express.static(uploadsDir));
 
 // Health check para Vercel
 app.get("/api/health", (req, res) => {
-  res.status(HTTP_STATUS.OK).json({ status: "ok", timestamp: new Date().toISOString() });
+  res
+    .status(HTTP_STATUS.OK)
+    .json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
 // Inicia servidor (apenas local, Vercel usa serverless)

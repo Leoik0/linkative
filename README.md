@@ -42,6 +42,7 @@ Plataforma completa de gerenciamento de links e analytics, similar ao Linktree, 
 ## 🛠️ Tech Stack
 
 ### Backend
+
 - Node.js + Express
 - Prisma ORM
 - PostgreSQL (Neon)
@@ -49,6 +50,7 @@ Plataforma completa de gerenciamento de links e analytics, similar ao Linktree, 
 - dotenv
 
 ### Frontend
+
 - React 18
 - Vite
 - Tailwind CSS
@@ -59,6 +61,7 @@ Plataforma completa de gerenciamento de links e analytics, similar ao Linktree, 
 ## 📦 Instalação
 
 ### Pré-requisitos
+
 - Node.js 18+
 - PostgreSQL (ou conta no Neon)
 - Conta no Clerk para autenticação
@@ -167,6 +170,7 @@ vercel --prod
 ```
 
 **Configurar na Vercel Dashboard:**
+
 - Root Directory: `frontend`
 - Build Command: `npm run build`
 - Output Directory: `dist`
@@ -186,6 +190,7 @@ vercel --prod
 ## 🔐 Variáveis de Ambiente
 
 ### Backend (.env)
+
 ```env
 DATABASE_URL="postgresql://..."
 PORT=4000
@@ -193,6 +198,7 @@ NODE_ENV=production
 ```
 
 ### Frontend (.env.local)
+
 ```env
 VITE_CLERK_PUBLISHABLE_KEY=pk_live_...
 VITE_API_URL=https://seu-backend.railway.app/api
@@ -218,6 +224,7 @@ npm test
 ## 📝 Scripts Úteis
 
 ### Backend
+
 ```bash
 npm run dev          # Desenvolvimento com nodemon
 npm start            # Produção
@@ -227,6 +234,7 @@ npm run seed         # Popular banco
 ```
 
 ### Frontend
+
 ```bash
 npm run dev          # Desenvolvimento
 npm run build        # Build para produção

@@ -1,5 +1,5 @@
 // Constantes da aplicação frontend
-export const API_BASE_URL = 
+export const API_BASE_URL =
   import.meta.env.VITE_API_URL || "http://localhost:4000/api";
 
 export const API_ENDPOINTS = {
@@ -14,7 +14,6 @@ export const API_ENDPOINTS = {
 export const ROUTES = {
   HOME: "/",
   LOGIN: "/login",
-  ABOUT: "/about",
   DASHBOARD: "/dashboard",
   PROFILE: (slug) => `/perfil/${slug}`,
 };
